@@ -6,6 +6,21 @@ import { inspectCommand } from './inspect';
 
 export async function router(args: string[]) {
   // args might be ["/slim", "init"] or ["init"]
+  if (args.length === 0) {
+    console.log(`
+mcp-slim - Compress MCP tool schemas into signatures
+
+Usage: slim <command>
+
+Available commands:
+  init     Initialize and fetch MCP tools
+  update   Sync changes and refresh signatures
+  status   Show token reduction stats
+  inspect  Visualize tool signatures
+  scrub    Reset all local state
+    `);
+    return;
+  }
   
   let command = args[0];
   

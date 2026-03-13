@@ -33,7 +33,7 @@ This results in an estimated **~90% reduction** in tool-related token overhead.
 
 ### 1. Build and Link
 ```bash
-git clone [https://github.com/jayanthchandra/Slim.git](https://github.com/jayanthchandra/Slim.git) mcp-slim
+git clone https://github.com/your-username/mcp-slim.git
 cd mcp-slim
 npm install
 npm run build
@@ -48,14 +48,14 @@ slim init
 
 ## 📦 Installation as AI CLI Extension
 
-Install `slim` natively in your favorite AI CLI using these commands:
+Install `mcp-slim` natively in your favorite AI CLI using these commands:
 
 <details>
 <summary><b>♊️ Gemini CLI / 📜 Codex</b></summary>
 
 ```bash
 # Install as a native extension
-gemini extensions install https://github.com/jayanthchandra/Slim.git
+gemini extensions install https://github.com/your-username/mcp-slim
 ```
 *Note: This automatically registers the `/slim` slash command.*
 </details>
@@ -65,7 +65,7 @@ gemini extensions install https://github.com/jayanthchandra/Slim.git
 
 ```bash
 # Add as a plugin
-claude plugin add https://github.com/jayanthchandra/Slim.git
+claude plugin add https://github.com/your-username/mcp-slim
 ```
 *Note: This enables `/slim` as a native plugin command.*
 </details>
@@ -75,7 +75,7 @@ claude plugin add https://github.com/jayanthchandra/Slim.git
 
 ```bash
 # Install as a native extension
-qwen extensions install https://github.com/jayanthchandra/Slim.git
+qwen extensions install https://github.com/your-username/mcp-slim
 ```
 *Note: This enables `/slim` using the Qwen-native markdown command format.*
 </details>

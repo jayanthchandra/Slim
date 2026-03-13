@@ -70,7 +70,9 @@ async function initCommand() {
     console.log(`Tools found: ${totalTools}`);
     console.log(`Token reduction estimate: ~${reduction}%`);
     const configPath = (0, cli_config_generator_1.generateGeminiConfig)();
-    console.log(`\nGemini CLI config generated at: ${configPath}`);
+    (0, cli_config_generator_1.generateQwenConfig)();
+    (0, cli_config_generator_1.generateClaudeConfig)();
+    console.log(`\nConfigurations generated for Gemini, Qwen, and Claude in: ${path_1.default.dirname(configPath)}`);
     const hookProfile = (0, hook_installer_1.installPrehook)();
     if (hookProfile === 'already-installed') {
         console.log('\nPre-hook is already configured in your shell.');

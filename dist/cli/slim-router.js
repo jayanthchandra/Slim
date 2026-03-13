@@ -8,6 +8,21 @@ const status_1 = require("./status");
 const inspect_1 = require("./inspect");
 async function router(args) {
     // args might be ["/slim", "init"] or ["init"]
+    if (args.length === 0) {
+        console.log(`
+mcp-slim - Compress MCP tool schemas into signatures
+
+Usage: slim <command>
+
+Available commands:
+  init     Initialize and fetch MCP tools
+  update   Sync changes and refresh signatures
+  status   Show token reduction stats
+  inspect  Visualize tool signatures
+  scrub    Reset all local state
+    `);
+        return;
+    }
     let command = args[0];
     if (command === '/slim' || command === '/slash') {
         command = args[1];

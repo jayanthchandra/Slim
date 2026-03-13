@@ -8,7 +8,7 @@ import { fetchSchemas, saveSchemas } from '../core/schema-fetcher';
 import { compressTool } from '../core/compressor';
 import { CompressedTool } from '../types/mcp';
 import { installPrehook } from '../core/hook-installer';
-import { generateGeminiConfig } from '../core/cli-config-generator';
+import { generateGeminiConfig, generateQwenConfig, generateClaudeConfig } from '../core/cli-config-generator';
 
 export async function initCommand() {
   ensureDirs();
@@ -86,7 +86,9 @@ export async function initCommand() {
   console.log(`Token reduction estimate: ~${reduction}%`);
 
   const configPath = generateGeminiConfig();
-  console.log(`\nGemini CLI config generated at: ${configPath}`);
+  generateQwenConfig();
+  generateClaudeConfig();
+  console.log(`\nConfigurations generated for Gemini, Qwen, and Claude in: ${path.dirname(configPath)}`);
 
   const hookProfile = installPrehook();
   if (hookProfile === 'already-installed') {
