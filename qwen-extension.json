@@ -1,0 +1,7 @@
+{
+  "name": "mcp-slim",
+  "version": "1.0.0",
+  "description": "Compress verbose MCP tool schemas into lightweight skill signatures.",
+  "contextFileName": "GEMINI.md",
+  "commands": "commands"
+}

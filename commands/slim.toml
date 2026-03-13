@@ -1,0 +1,7 @@
+description = "Manage MCP tool signatures (init, status, update, inspect, scrub)."
+prompt = """
+Execute the following shell command and return its output:
+`slim {{args}}`
+
+If args are not provided, show the available subcommands: init, status, update, inspect, scrub.
+"""

@@ -46,6 +46,40 @@ Run the initialization command to detect your MCP servers and generate the local
 slim init
 ```
 
+## 📦 Installation as AI CLI Extension
+
+Install `mcp-slim` natively in your favorite AI CLI using these commands:
+
+<details>
+<summary><b>♊️ Gemini CLI / 📜 Codex</b></summary>
+
+```bash
+# Install as a native extension
+gemini extensions install https://github.com/your-username/mcp-slim
+```
+*Note: This automatically registers the `/slim` slash command.*
+</details>
+
+<details>
+<summary><b>👤 Claude Code</b></summary>
+
+```bash
+# Add as a plugin
+claude plugin add https://github.com/your-username/mcp-slim
+```
+*Note: This enables `/slim` as a native plugin command.*
+</details>
+
+<details>
+<summary><b>🤖 Qwen CLI</b></summary>
+
+```bash
+# Install as a native extension
+qwen extensions install https://github.com/your-username/mcp-slim
+```
+*Note: This enables `/slim` using the Qwen-native markdown command format.*
+</details>
+
 ---
 
 ## 🤖 How to Setup in AI CLIs
