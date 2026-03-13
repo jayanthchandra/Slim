@@ -1,10 +1,11 @@
 description = "Manage MCP tool signatures (init, status, update, inspect, scrub)."
 prompt = """
-Execute a command for the 'mcp-slim' extension.
+Execute a command for the `mcp-slim` extension.
 
-1. Locate the file: `mcp-slim/dist/index.js` relative to where this extension is stored.
-2. If found, execute: `node [absolute-path-to-index.js] {{args}}`
-3. If not found in the extension directory, attempt to execute: `slim {{args}}`
+1. **Check the internal extension path**: `~/.gemini/extensions/mcp-slim/dist/index.js`
+2. **If found**, execute: `node [path-to-index.js] {{args}}`
+3. **If not found**, search the workspace for `mcp-slim/dist/index.js` and execute with node.
+4. If still not found, try: `slim {{args}}`
 
-Return the output of the command.
+Return the final output.
 """

@@ -74,6 +74,10 @@ async function initCommand() {
     (0, cli_config_generator_1.generateClaudeConfig)();
     console.log(`\nConfigurations generated for Gemini, Qwen, and Claude in: ${path_1.default.dirname(configPath)}`);
     const hookProfile = (0, hook_installer_1.installPrehook)();
+    console.log('\n--- Setup Instructions ---');
+    console.log('To enable the global "slim" command (required for Gemini CLI slash commands):');
+    console.log('1. Run: npm link (in this directory)');
+    console.log('2. Restart your terminal.');
     if (hookProfile === 'already-installed') {
         console.log('\nPre-hook is already configured in your shell.');
     }

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "bin": {
-    "slim": "dist/index.js",
-    "mcp-slim": "dist/index.js"
+    "slim": "./dist/index.js",
+    "mcp-slim": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",

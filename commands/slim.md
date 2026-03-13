@@ -6,7 +6,11 @@ arguments:
     description: "The subcommand to execute: init, status, update, inspect, scrub."
 ---
 
-Execute the following shell command using your system tools and return its output:
-`slim {{args}}`
+I need to execute a command for the `mcp-slim` extension.
 
-If args are not provided, show the available subcommands: init, status, update, inspect, scrub.
+1. **Check the internal extension path**: `~/.gemini/extensions/mcp-slim/dist/index.js`
+2. **If found**, execute: `node [path-to-index.js] {{args}}`
+3. **If not found**, search the workspace for `mcp-slim/dist/index.js` and execute with node.
+4. If still not found, try: `slim {{args}}`
+
+Return the final output.
