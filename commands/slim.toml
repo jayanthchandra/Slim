@@ -1,7 +1,10 @@
 description = "Manage MCP tool signatures (init, status, update, inspect, scrub)."
 prompt = """
-Execute the following shell command and return its output:
-`slim {{args}}`
+Execute a command for the 'mcp-slim' extension.
 
-If args are not provided, show the available subcommands: init, status, update, inspect, scrub.
+1. Locate the file: `mcp-slim/dist/index.js` relative to where this extension is stored.
+2. If found, execute: `node [absolute-path-to-index.js] {{args}}`
+3. If not found in the extension directory, attempt to execute: `slim {{args}}`
+
+Return the output of the command.
 """
