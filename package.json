@@ -1,0 +1,30 @@
+{
+  "name": "mcp-slim",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "bin": {
+    "slim": "dist/index.js",
+    "mcp-slim": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "init": "node dist/index.js init",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sqlite3": "^5.1.7",
+    "tsx": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.11.24",
+    "@types/sqlite3": "^3.1.11",
+    "jest": "^30.3.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.3.3"
+  }
+}
