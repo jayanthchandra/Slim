@@ -91,6 +91,11 @@ export async function initCommand() {
   console.log(`\nConfigurations generated for Gemini, Qwen, and Claude in: ${path.dirname(configPath)}`);
 
   const hookProfile = installPrehook();
+  console.log('\n--- Setup Instructions ---');
+  console.log('To enable the global "slim" command (required for Gemini CLI slash commands):');
+  console.log('1. Run: npm link (in this directory)');
+  console.log('2. Restart your terminal.');
+  
   if (hookProfile === 'already-installed') {
     console.log('\nPre-hook is already configured in your shell.');
   } else if (hookProfile) {
