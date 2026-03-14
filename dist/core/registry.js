@@ -55,6 +55,12 @@ class Registry {
     getServerHash(serverName) {
         return this.db.servers[serverName]?.hash || null;
     }
+    async getServers() {
+        return Object.entries(this.db.servers).map(([id, data]) => ({
+            id,
+            config_hash: data.hash
+        }));
+    }
     getAllTools() {
         return this.db.tools;
     }

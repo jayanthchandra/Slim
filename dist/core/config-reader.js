@@ -7,7 +7,7 @@ exports.readConfig = readConfig;
 const fs_1 = __importDefault(require("fs"));
 const paths_1 = require("../storage/paths");
 function readConfig() {
-    for (const loc of paths_1.CONFIG_LOCATIONS) {
+    for (const loc of (0, paths_1.getConfigLocations)()) {
         if (fs_1.default.existsSync(loc)) {
             try {
                 const content = fs_1.default.readFileSync(loc, 'utf-8');

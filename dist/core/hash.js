@@ -14,11 +14,12 @@ function computeHash(config) {
     return crypto_1.default.createHash('sha256').update(str).digest('hex');
 }
 function saveHash(hash) {
-    fs_1.default.writeFileSync(paths_1.CONFIG_HASH_FILE, hash, 'utf-8');
+    fs_1.default.writeFileSync((0, paths_1.getConfigHashFile)(), hash, 'utf-8');
 }
 function loadHash() {
-    if (fs_1.default.existsSync(paths_1.CONFIG_HASH_FILE)) {
-        return fs_1.default.readFileSync(paths_1.CONFIG_HASH_FILE, 'utf-8');
+    const file = (0, paths_1.getConfigHashFile)();
+    if (fs_1.default.existsSync(file)) {
+        return fs_1.default.readFileSync(file, 'utf-8');
     }
     return null;
 }

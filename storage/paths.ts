@@ -7,7 +7,18 @@ export const MCP_SLASH_ROOT = path.join(HOME_DIR, '.mcp-slim');
 export const SCHEMA_DIR = path.join(MCP_SLASH_ROOT, 'schemas');
 export const SKILL_DIR = path.join(MCP_SLASH_ROOT, 'skills');
 export const REGISTRY_DB = process.env.REGISTRY_DB || path.join(MCP_SLASH_ROOT, 'registry.db');
-export const CONFIG_HASH_FILE = path.join(MCP_SLASH_ROOT, 'config.hash');
+
+export function getActiveCLIName(): string {
+  if (process.env.GEMINI_CLI) return 'gemini';
+  if (process.env.CLAUDE_CODE || process.env.CLAUDECODE) return 'claude';
+  if (process.env.QWEN_CLI || process.env.AUGMENT_AGENT) return 'qwen';
+  if (process.env.CODEX_SANDBOX || process.env.OPENCODE) return 'codex';
+  return 'global';
+}
+
+export function getConfigHashFile(): string {
+  return path.join(MCP_SLASH_ROOT, `config-${getActiveCLIName()}.hash`);
+}
 
 export function getConfigLocations(): string[] {
   const locations: string[] = [];

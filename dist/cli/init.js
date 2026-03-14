@@ -12,7 +12,6 @@ const hash_1 = require("../core/hash");
 const registry_1 = require("../core/registry");
 const schema_fetcher_1 = require("../core/schema-fetcher");
 const compressor_1 = require("../core/compressor");
-const hook_installer_1 = require("../core/hook-installer");
 const cli_config_generator_1 = require("../core/cli-config-generator");
 async function initCommand() {
     (0, paths_1.ensureDirs)();
@@ -73,19 +72,8 @@ async function initCommand() {
     (0, cli_config_generator_1.generateQwenConfig)();
     (0, cli_config_generator_1.generateClaudeConfig)();
     console.log(`\nConfigurations generated for Gemini, Qwen, and Claude in: ${path_1.default.dirname(configPath)}`);
-    const hookProfile = (0, hook_installer_1.installPrehook)();
     console.log('\n--- Setup Instructions ---');
-    console.log('To enable the global "slim" command (required for Gemini CLI slash commands):');
+    console.log('To enable the global "slim" command (required for AI CLI slash commands):');
     console.log('1. Run: npm link (in this directory)');
-    console.log('2. Restart your terminal.');
-    if (hookProfile === 'already-installed') {
-        console.log('\nPre-hook is already configured in your shell.');
-    }
-    else if (hookProfile) {
-        console.log(`\nSuccessfully registered pre-hook in ${hookProfile}.`);
-        console.log('To activate it, run "npm link" in this directory, and restart your terminal.');
-    }
-    else {
-        console.log('\nCould not automatically install pre-hook. Please add "slim update > /dev/null 2>&1 &" to your shell profile.');
-    }
+    console.log('2. Restart your AI CLI instance.');
 }

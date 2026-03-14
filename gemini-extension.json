@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Compress verbose MCP tool schemas into lightweight skill signatures.",
   "commands": "commands",
+  "hooks": {
+    "pre_session": "node ./dist/index.js update"
+  },
   "author": "your-username",
   "repository": {
     "type": "git",

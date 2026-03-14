@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import fs from 'fs';
-import { CONFIG_HASH_FILE } from '../storage/paths';
+import { getConfigHashFile } from '../storage/paths';
 import { MCPConfig } from '../types/mcp';
 
 export function computeHash(config: MCPConfig): string {
@@ -9,12 +9,13 @@ export function computeHash(config: MCPConfig): string {
 }
 
 export function saveHash(hash: string): void {
-  fs.writeFileSync(CONFIG_HASH_FILE, hash, 'utf-8');
+  fs.writeFileSync(getConfigHashFile(), hash, 'utf-8');
 }
 
 export function loadHash(): string | null {
-  if (fs.existsSync(CONFIG_HASH_FILE)) {
-    return fs.readFileSync(CONFIG_HASH_FILE, 'utf-8');
+  const file = getConfigHashFile();
+  if (fs.existsSync(file)) {
+    return fs.readFileSync(file, 'utf-8');
   }
   return null;
 }
