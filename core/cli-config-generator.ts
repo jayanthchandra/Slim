@@ -10,7 +10,7 @@ const RUNNER = BIN_PATH.endsWith('.js') ? `node ${BIN_PATH}` : BIN_PATH;
  * Generates configuration for Gemini CLI
  */
 export function generateGeminiConfig() {
-  const tomlContent = `
+    const tomlContent = `
 [commands]
 # Gemini CLI native slash commands for mcp-slim
 "/slim init" = "${RUNNER} init"
@@ -23,9 +23,9 @@ export function generateGeminiConfig() {
 pre_session = "${RUNNER} update"
 `;
 
-  const configPath = path.join(MCP_SLASH_ROOT, 'gemini.toml');
-  fs.writeFileSync(configPath, tomlContent);
-  return configPath;
+    const configPath = path.join(MCP_SLASH_ROOT, 'gemini.toml');
+    fs.writeFileSync(configPath, tomlContent);
+    return configPath;
 }
 
 /**
@@ -33,16 +33,15 @@ pre_session = "${RUNNER} update"
  */
 export function generateQwenConfig() {
     const config = {
-        name: "mcp-slim",
         commands: {
-            "init": "${RUNNER} init",
-            "update": "${RUNNER} update",
-            "status": "${RUNNER} status",
-            "inspect": "${RUNNER} inspect",
-            "scrub": "${RUNNER} scrub"
+            "slim init": "${RUNNER} init",
+            "slim update": "${RUNNER} update",
+            "slim status": "${RUNNER} status",
+            "slim inspect": "${RUNNER} inspect",
+            "slim scrub": "${RUNNER} scrub"
         },
         hooks: {
-            "pre-session": "${RUNNER} update"
+            "pre_session": "${RUNNER} update"
         }
     };
     const configPath = path.join(MCP_SLASH_ROOT, 'qwen.json');
