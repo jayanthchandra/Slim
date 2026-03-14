@@ -42,7 +42,7 @@ async function updateCommand() {
             for (const tool of tools) {
                 const compressed = (0, compressor_1.compressTool)(tool);
                 toolEntries.push({
-                    name: tool.name,
+                    toolName: tool.name,
                     signature: compressed.signature,
                     description: compressed.description
                 });

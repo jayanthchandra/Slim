@@ -48,9 +48,10 @@ export async function updateCommand() {
       for (const tool of tools) {
         const compressed = compressTool(tool);
         toolEntries.push({
-            name: tool.name, 
-            signature: compressed.signature, 
+            toolName: tool.name,
+            signature: compressed.signature,
             description: compressed.description
+
         });
         skillFileContent += `${compressed.signature}\n`;
       }

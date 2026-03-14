@@ -51,7 +51,7 @@ async function initCommand() {
             compressedSize += compressed.signature.length + compressed.description.length;
             compressedTools.push(compressed);
             toolEntries.push({
-                name: tool.name,
+                toolName: tool.name,
                 signature: compressed.signature,
                 description: compressed.description
             });

@@ -1,48 +1,58 @@
 import fs from 'fs';
-import path from 'path';
-
-// Set environment variable BEFORE importing Registry
-const testDbPath = path.join(__dirname, 'test-registry.db');
-process.env.REGISTRY_DB = testDbPath;
-
 import { Registry } from '../core/registry';
+import { REGISTRY_DB } from '../storage/paths';
 
-describe('Registry', () => {
-  let registry: Registry;
+jest.mock('fs');
 
-  beforeAll(async () => {
-    registry = new Registry();
-    await registry.init();
+describe('JSON Registry', () => {
+  const dbPath = REGISTRY_DB.replace('.db', '.json');
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (fs.existsSync as jest.Mock).mockReturnValue(false); // Default to no file existing
+    (fs.writeFileSync as jest.Mock).mockImplementation(() => {});
   });
 
-  afterAll(async () => {
-    await registry.close();
-    if (fs.existsSync(testDbPath)) {
-      fs.unlinkSync(testDbPath);
-    }
+  test('should initialize with an empty registry if no file exists', () => {
+    const registry = new Registry();
+    expect(registry.getAllTools()).toEqual([]);
   });
 
-  test('should insert and retrieve a server', async () => {
-    const serverId = 'test-server';
-    const hash = 'abc-123';
-    await registry.updateServer(serverId, hash);
+  test('should load an existing registry file', () => {
+    const mockData = {
+      servers: { 'test-server': { hash: '123' } },
+      tools: [{ serverId: 'test-server', toolName: 'test_tool', signature: 'test()', description: '', lastUpdated: 0 }]
+    };
+    (fs.existsSync as jest.Mock).mockReturnValue(true);
+    (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockData));
+
+    const registry = new Registry();
+    expect(registry.getServerHash('test-server')).toBe('123');
+    expect(registry.getAllTools()).toHaveLength(1);
+  });
+
+  test('should add tools and update server hash', async () => {
+    const registry = new Registry();
+    await registry.updateServer('test-server', 'abc');
+    await registry.addTools('test-server', [
+      { toolName: 'tool1', signature: 'tool1()', description: 'desc1' }
+    ]);
     
-    const servers = await registry.getServers();
-    expect(servers.some(s => s.id === serverId && s.config_hash === hash)).toBe(true);
+    const writeSpy = fs.writeFileSync as jest.Mock;
+    expect(writeSpy).toHaveBeenCalledTimes(2);
+
+    const finalState = JSON.parse(writeSpy.mock.calls[1][1]);
+    expect(finalState.servers['test-server'].hash).toBe('abc');
+    expect(finalState.tools[0].toolName).toBe('tool1');
   });
 
-  test('should add and retrieve tools', async () => {
-    const serverId = 'test-server';
-    const tools = [
-      { name: 'tool1', signature: 'tool1()', description: 'desc1' },
-      { name: 'tool2', signature: 'tool2(arg)', description: 'desc2' }
-    ];
-    await registry.addTools(serverId, tools);
-    
-    const allTools = await registry.getAllTools();
-    const serverTools = allTools.filter(t => t.serverId === serverId);
-    expect(serverTools).toHaveLength(2);
-    expect(serverTools[0].toolName).toBe('tool1');
-    expect(serverTools[1].signature).toBe('tool2(arg)');
+  test('should overwrite existing tools for a server on add', async () => {
+    const registry = new Registry();
+    await registry.addTools('test-server', [{ toolName: 'tool1', signature: 'tool1()', description: '' }]);
+    await registry.addTools('test-server', [{ toolName: 'tool2', signature: 'tool2()', description: '' }]);
+
+    const finalTools = registry.getAllTools();
+    expect(finalTools).toHaveLength(1);
+    expect(finalTools[0].toolName).toBe('tool2');
   });
 });
