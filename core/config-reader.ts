@@ -1,9 +1,9 @@
 import fs from 'fs';
-import { CONFIG_LOCATIONS } from '../storage/paths';
+import { getConfigLocations } from '../storage/paths';
 import { MCPConfig } from '../types/mcp';
 
 export function readConfig(): MCPConfig | null {
-  for (const loc of CONFIG_LOCATIONS) {
+  for (const loc of getConfigLocations()) {
     if (fs.existsSync(loc)) {
       try {
         const content = fs.readFileSync(loc, 'utf-8');
