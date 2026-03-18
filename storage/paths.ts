@@ -13,6 +13,15 @@ export function getActiveCLIName(): string {
   if (process.env.CLAUDE_CODE || process.env.CLAUDECODE) return 'claude';
   if (process.env.QWEN_CLI || process.env.AUGMENT_AGENT) return 'qwen';
   if (process.env.CODEX_SANDBOX || process.env.OPENCODE) return 'codex';
+
+  // Fallback to executable path sniffing
+  // If installed as an extension: /Users/username/.qwen/extensions/...
+  const binPath = process.argv[1] || '';
+  if (binPath.includes('.gemini')) return 'gemini';
+  if (binPath.includes('.claude')) return 'claude';
+  if (binPath.includes('.qwen')) return 'qwen';
+  if (binPath.includes('.codex')) return 'codex';
+
   return 'global';
 }
 
@@ -22,27 +31,30 @@ export function getConfigHashFile(): string {
 
 export function getConfigLocations(): string[] {
   const locations: string[] = [];
+  const home = os.homedir();
 
   // Always allow an explicit local override
   locations.push(path.join(process.cwd(), '.mcp.json'));
 
-  if (process.env.GEMINI_CLI) {
-    locations.push(path.join(HOME_DIR, '.gemini', 'settings.json'));
-  } else if (process.env.CLAUDE_CODE || process.env.CLAUDECODE) {
-    locations.push(path.join(HOME_DIR, '.claude', 'settings.json'));
-    locations.push(path.join(HOME_DIR, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json'));
-  } else if (process.env.QWEN_CLI || process.env.AUGMENT_AGENT) {
-    locations.push(path.join(HOME_DIR, '.qwen', 'settings.json'));
-  } else if (process.env.CODEX_SANDBOX || process.env.OPENCODE) {
-    locations.push(path.join(HOME_DIR, '.codex', 'settings.json'));
+  const activeCLI = getActiveCLIName();
+
+  if (activeCLI === 'gemini') {
+    locations.push(path.join(home, '.gemini', 'settings.json'));
+  } else if (activeCLI === 'claude') {
+    locations.push(path.join(home, '.claude', 'settings.json'));
+    locations.push(path.join(home, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json'));
+  } else if (activeCLI === 'qwen') {
+    locations.push(path.join(home, '.qwen', 'settings.json'));
+  } else if (activeCLI === 'codex') {
+    locations.push(path.join(home, '.codex', 'settings.json'));
   } else {
     // Fallback: Check them all if run natively outside of a CLI
     locations.push(
-      path.join(HOME_DIR, '.gemini', 'settings.json'),
-      path.join(HOME_DIR, '.qwen', 'settings.json'),
-      path.join(HOME_DIR, '.claude', 'settings.json'),
-      path.join(HOME_DIR, '.codex', 'settings.json'),
-      path.join(HOME_DIR, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json')
+      path.join(home, '.gemini', 'settings.json'),
+      path.join(home, '.qwen', 'settings.json'),
+      path.join(home, '.claude', 'settings.json'),
+      path.join(home, '.codex', 'settings.json'),
+      path.join(home, 'Library', 'Application Support', 'Claude', 'claude_desktop_config.json')
     );
   }
 
