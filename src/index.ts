@@ -1,5 +1,8 @@
 import { slimInit } from './cli/slim-init.js';
 import { slimInspect } from './cli/slim-inspect.js';
+import { slimStatus } from './cli/slim-status.js';
+import { slimUpdate } from './cli/slim-update.js';
+import { executeSkill } from './core/skill-router.js';
 
 async function main() {
   const args = process.argv.slice(2);
@@ -13,10 +16,25 @@ async function main() {
       await slimInspect();
       break;
     case 'status':
-      console.log('Status command coming soon...');
+      await slimStatus();
       break;
     case 'update':
-      console.log('Update command coming soon...');
+      await slimUpdate();
+      break;
+    case 'execute':
+      const [skill, action, paramsJson] = args.slice(1);
+      if (!skill || !action || !paramsJson) {
+        console.error('Usage: slim execute <skill> <action> <params_json>');
+        process.exit(1);
+      }
+      try {
+        const params = JSON.parse(paramsJson);
+        const result = await executeSkill(skill, action, params);
+        console.log(JSON.stringify(result, null, 2));
+      } catch (e: any) {
+        console.error(`Execution error: ${e.message}`);
+        process.exit(1);
+      }
       break;
     default:
       console.log(`
