@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { readJsonFile } from '../storage/file-store.js';
 import { getRegistryPath, getSkillDir } from '../storage/paths.js';
 import { detectCli } from '../core/cli-detector.js';

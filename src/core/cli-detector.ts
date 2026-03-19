@@ -11,8 +11,12 @@ export function detectCli(): string {
   if (process.env.QWEN_CLI) return 'qwen';
   if (process.env.CLAUDE_CLI) return 'claude';
 
-  // Default fallback or error?
-  // For now, default to 'gemini' if nothing found, or throw?
-  // Let's throw to be safe, so user knows they need to specify.
+  // 3. Check installation path (e.g., ~/.gemini/extensions/slim/...)
+  const currentPath = process.argv[1] || '';
+  if (currentPath.includes('.gemini')) return 'gemini';
+  if (currentPath.includes('.qwen')) return 'qwen';
+  if (currentPath.includes('.claude')) return 'claude';
+
+  // Default fallback or error
   throw new Error('Could not detect CLI. Please use --cli [gemini|qwen|claude] or set env vars.');
 }

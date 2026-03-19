@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { slimInit } from './cli/slim-init.js';
 import { slimInspect } from './cli/slim-inspect.js';
 import { slimStatus } from './cli/slim-status.js';
