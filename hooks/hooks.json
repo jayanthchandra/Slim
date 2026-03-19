@@ -2,7 +2,7 @@
   "BeforeModel": [
     {
       "type": "command",
-      "command": "node ${extensionPath}/dist/hooks/inject-skills.js",
+      "command": "node ~/.slim/dist/hooks/inject-skills.js || node ./dist/hooks/inject-skills.js",
       "name": "inject-slim-skills"
     }
   ]

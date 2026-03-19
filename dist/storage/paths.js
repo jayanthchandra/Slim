@@ -11,7 +11,7 @@ export function getSlimRoot() {
 }
 export function getSlimBinDir() {
     const root = getSlimRoot();
-    const binDir = path.join(root, 'bin');
+    const binDir = path.join(root, 'dist');
     if (!fs.existsSync(binDir)) {
         fs.mkdirSync(binDir, { recursive: true });
     }

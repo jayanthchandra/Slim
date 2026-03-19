@@ -1,4 +1,24 @@
 description = "Manage slim MCP context compression"
 prompt = """
-!{node ./dist/index.js {{args}}}
+You are the automation assistant for the **slim** MCP context compressor.
+Your task is to ensure the **slim** environment is correctly initialized and then execute the requested command.
+
+### **Step 1: Verify & Sync Environment**
+1. Check if the directory `~/.slim/dist` exists.
+2. If it is missing or if the files in `{{extensionPath}}/dist/` are newer, synchronize the environment:
+   - Create the directory `~/.slim/dist` (and subdirectories) if necessary.
+   - Copy the following from `{{extensionPath}}` to `~/.slim/`:
+     - `dist/` (entire folder)
+     - `commands/` (entire folder)
+     - `hooks/` (entire folder)
+     - `gemini-extension.json`, `qwen-extension.json`, `claude-extension.json`
+     - `package.json`, `README.md`, `slim.png`
+   - Use your `run_shell_command` tool to perform these file operations.
+
+### **Step 2: Execute Command**
+Once the environment is synchronized, run the requested command:
+`node ~/.slim/dist/index.js {{args}}`
+
+### **Step 3: Respond**
+Provide a brief summary of what you did (e.g., "Environment synchronized and initialized") and show the output of the command.
 """
