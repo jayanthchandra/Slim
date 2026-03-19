@@ -1,126 +1,103 @@
-# ⚡️ mcp-slim
+# <img src="slim.png" width="400" alt="slim logo">
 
-![mcp-slim](./slim.png)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
 
-**mcp-slim** is an open-source developer tool designed to dramatically reduce the token usage of Model Context Protocol (MCP) tool schemas. It compresses verbose JSON schemas into lightweight "skill signatures," allowing your AI CLI (like Gemini or Claude) to handle more tools while keeping your context window focused and efficient.
-
----
-
-## 🚀 The Problem
-MCP tool schemas are often extremely verbose, consuming thousands of tokens just to describe a few tools. This leads to:
-- Faster context window exhaustion.
-- Increased latency.
-- Higher costs for LLM API usage.
-
-## 🛠 The Solution
-`mcp-slim` reads your existing MCP configurations and generates **Skill Signatures**. Instead of a 20-line JSON object for a single tool, it produces a single-line signature:
-`create_issue(repo, title, body)`
-
-This results in an estimated **~90% reduction** in tool-related token overhead.
+**slim** is a lightweight TypeScript-based extension for AI CLIs (Gemini, Qwen, Claude) that dramatically reduces Model Context Protocol (MCP) token usage by compressing tool exposure.
 
 ---
 
-## ✨ Features
-- **Zero-Modification**: Reads your MCP configs without changing them.
-- **Native Integration**: Works as a native slash command (`/slim`) in Gemini and Claude CLIs.
-- **Auto-Sync**: Background hooks keep your tool signatures in sync with your actual MCP servers.
-- **Lightweight**: Built with TypeScript and SQLite for fast, local-only performance.
-- **Transparent**: Inspect raw schemas and generated signatures at any time.
+## 🚀 The Problem: Token Bloat
+When you use multiple MCP servers, AI CLIs inject every single tool schema into the LLM prompt. For large servers like `github` or `filesystem`, this can consume **thousands of tokens** before you even start typing.
+
+**Example Raw Exposure:**
+- `read_file`, `write_file`, `list_directory`, `search_code`, `git_diff`, `create_issue`, `get_pull_request`... (50+ tools)
+
+## 💎 The Solution: Skill Compression
+**slim** consolidates an entire MCP server into a single **Skill Signature**. Instead of 50 schemas, the LLM sees one:
+
+`github_tools(action, params)`
+
+When the LLM calls `github_tools("create_issue", { ... })`, the **slim** runtime routes the call to the correct MCP tool. 
+
+**Result: ~95% reduction in MCP-related token overhead.**
+
+---
+
+## 🛠 Features
+
+- **Native CLI Detection:** Automatically identifies if you are running in Gemini, Qwen, or Claude environments.
+- **Automated Discovery:** Scans your host CLI `settings.json` to find and connect to your MCP servers.
+- **On-the-fly Generation:** Spawns MCP servers via JSON-RPC to fetch tool lists and generate skill definitions.
+- **Safe Execution:** Manages MCP process lifecycles and standardizes routing via a local registry.
+- **Zero Latency:** High-performance TypeScript implementation with minimal dependencies.
 
 ---
 
 ## 📦 Installation
 
-### 1. Build and Link
-```bash
-git clone https://github.com/your-username/mcp-slim.git
-cd mcp-slim
-npm install
-npm run build
-npm link
-```
+1. **Clone and Build:**
+   ```bash
+   git clone https://github.com/your-repo/slim.git
+   cd slim
+   npm install
+   npm run build
+   ```
 
-### 2. Initialize
-Run the initialization command to detect your MCP servers and generate the local registry.
-```bash
-slim init
-```
-
-## 📦 Installation as AI CLI Extension
-
-Install `mcp-slim` natively in your favorite AI CLI using these commands:
-
-<details>
-<summary><b>♊️ Gemini CLI / 📜 Codex</b></summary>
-
-```bash
-# Install as a native extension
-gemini extensions install https://github.com/your-username/mcp-slim
-```
-*Note: This automatically registers the `/slim` slash command.*
-</details>
-
-<details>
-<summary><b>👤 Claude Code</b></summary>
-
-```bash
-# Add as a plugin
-claude plugin add https://github.com/your-username/mcp-slim
-```
-*Note: This enables `/slim` as a native plugin command.*
-</details>
-
-<details>
-<summary><b>🤖 Qwen CLI</b></summary>
-
-```bash
-# Install as a native extension
-qwen extensions install https://github.com/your-username/mcp-slim
-```
-*Note: This enables `/slim` using the Qwen-native markdown command format.*
-</details>
+2. **Link Globally:**
+   ```bash
+   npm link
+   ```
 
 ---
 
-## 🎮 Usage
+## 🚦 Usage
 
-Once installed, you can use the following commands directly in your AI CLI session:
+### 1. Initialize
+Scan your host CLI settings and generate compressed skills.
+```bash
+slim init
+```
+*Note: You can specify a CLI manually with `--cli [gemini|qwen|claude]`.*
 
-| Command | Description |
-| :--- | :--- |
-| `/slim init` | Full initialization and registry build. |
-| `/slim update` | Rebuild signatures if MCP config has changed. |
-| `/slim status` | Show servers, tools, and estimated token savings. |
-| `/slim inspect` | Display all currently generated signatures. |
-| `/slim scrub` | Reset the system and delete local state. |
+### 2. Inspect
+View your generated skills and the actions they contain.
+```bash
+slim inspect
+```
+
+### 3. Usage in Prompt
+Once initialized, you can reference the skills in your AI CLI:
+> "Use `github_tools` to create a new issue for the bug we found."
 
 ---
 
 ## 📂 Project Structure
-- `cli/`: Command handlers and the main router.
-- `core/`: Core logic for compression, hashing, and configuration.
-- `storage/`: SQLite registry and file path management.
-- `hooks/`: Background sync hooks.
-- `tests/`: Comprehensive Jest test suite.
+
+- `src/cli/`: Command handlers (`init`, `inspect`, `status`).
+- `src/core/`: Business logic for MCP scanning, tool fetching, and skill generation.
+- `src/storage/`: Path management and JSON persistence.
+- `src/types/`: Shared TypeScript interfaces.
+- `~/.slim/`: Local state directory where registries and schemas are stored.
 
 ---
 
-## 🛠 Development
-To run tests:
-```bash
-npm test
-```
+## 🤝 Contributing
 
-To watch for changes during development:
-```bash
-npx tsc -w
-```
+We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) (coming soon) for details on our code of conduct and the process for submitting pull requests.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
 ## 📄 License
-MIT License - feel free to use, modify, and distribute.
+
+Distributed under the **ISC License**. See `LICENSE` for more information.
 
 ---
-
-**Built with ❤️ for the MCP ecosystem.**
+*Built with ❤️ for the AI Engineer community.*

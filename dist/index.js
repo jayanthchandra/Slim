@@ -1,6 +1,38 @@
-#!/usr/bin/env node
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const slim_router_1 = require("./cli/slim-router");
-const args = process.argv.slice(2);
-(0, slim_router_1.router)(args).catch(console.error);
+import { slimInit } from './cli/slim-init.js';
+import { slimInspect } from './cli/slim-inspect.js';
+async function main() {
+    const args = process.argv.slice(2);
+    const command = args[0];
+    switch (command) {
+        case 'init':
+            await slimInit();
+            break;
+        case 'inspect':
+            await slimInspect();
+            break;
+        case 'status':
+            console.log('Status command coming soon...');
+            break;
+        case 'update':
+            console.log('Update command coming soon...');
+            break;
+        default:
+            console.log(`
+Usage: slim <command> [options]
+
+Commands:
+  init      Initialize slim and generate skills from MCP servers
+  inspect   View generated skills and actions
+  status    Show token usage and compression reports
+  update    Sync changes from host CLI settings
+
+Options:
+  --cli <name>  Manually specify CLI (gemini, qwen, claude)
+      `);
+            break;
+    }
+}
+main().catch(err => {
+    console.error(err);
+    process.exit(1);
+});
