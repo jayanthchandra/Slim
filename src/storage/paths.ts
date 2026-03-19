@@ -31,8 +31,8 @@ export function getCliDir(cli: string): string {
 }
 
 export function getSkillDir(cli: string): string {
-  const cliDir = getCliDir(cli);
-  const skillDir = path.join(cliDir, 'skills');
+  const home = os.homedir();
+  const skillDir = path.join(home, `.${cli}`, 'skills');
   if (!fs.existsSync(skillDir)) {
     fs.mkdirSync(skillDir, { recursive: true });
   }
