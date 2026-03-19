@@ -9,6 +9,14 @@ export function getSlimRoot() {
     }
     return root;
 }
+export function getSlimBinDir() {
+    const root = getSlimRoot();
+    const binDir = path.join(root, 'bin');
+    if (!fs.existsSync(binDir)) {
+        fs.mkdirSync(binDir, { recursive: true });
+    }
+    return binDir;
+}
 export function getCliDir(cli) {
     const root = getSlimRoot();
     const cliDir = path.join(root, cli);

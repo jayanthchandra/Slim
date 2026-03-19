@@ -1,4 +1,4 @@
 description = "Manage slim MCP context compression"
 prompt = """
-!{node ${extensionPath}/dist/index.js {{args}}}
+!{node ./dist/index.js {{args}}}
 """

@@ -20,6 +20,14 @@ export function detectCli() {
         return 'qwen';
     if (currentPath.includes('.claude'))
         return 'claude';
+    // 4. Check CWD (Extensions are often run from their own root)
+    const cwd = process.cwd();
+    if (cwd.includes('.gemini'))
+        return 'gemini';
+    if (cwd.includes('.qwen'))
+        return 'qwen';
+    if (cwd.includes('.claude'))
+        return 'claude';
     // Default fallback or error
     throw new Error('Could not detect CLI. Please use --cli [gemini|qwen|claude] or set env vars.');
 }
