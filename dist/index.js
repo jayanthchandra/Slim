@@ -3,6 +3,7 @@ import { slimInit } from './cli/slim-init.js';
 import { slimInspect } from './cli/slim-inspect.js';
 import { slimStatus } from './cli/slim-status.js';
 import { slimUpdate } from './cli/slim-update.js';
+import { slimDoc } from './cli/slim-doc.js';
 import { executeSkill } from './core/skill-router.js';
 async function main() {
     const args = process.argv.slice(2);
@@ -19,6 +20,9 @@ async function main() {
             break;
         case 'update':
             await slimUpdate();
+            break;
+        case 'doc':
+            await slimDoc();
             break;
         case 'execute':
             const [skill, action, paramsJson] = args.slice(1);
@@ -45,6 +49,7 @@ Commands:
   inspect   View generated skills and actions
   status    Show token usage and compression reports
   update    Sync changes from host CLI settings
+  doc       Generate markdown documentation for skills
 
 Options:
   --cli <name>  Manually specify CLI (gemini, qwen, claude)
